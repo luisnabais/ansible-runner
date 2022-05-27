@@ -1,3 +1,3 @@
 FROM alpine:3.16.0
 
-RUN apk -U add ansible openssh
+RUN apk -U add ansible git openssh
