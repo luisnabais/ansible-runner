@@ -19,8 +19,8 @@ docker-build:
     - chmod +x /usr/bin/docker-buildx
     - docker login -u ${DOCKER_USER} -p ${DOCKER_TOKEN}
   script:
-    - ALPINE_TAG=$(grep FROM Dockerfile.alpine | cut -d' ' -f2)
-    - DEBIAN_TAG=$(grep FROM Dockerfile.debian | cut -d' ' -f2)
+    - ALPINE_TAG=$(grep FROM Dockerfile.alpine | cut -d' ' -f2 | tr -d ':')
+    - DEBIAN_TAG=$(grep FROM Dockerfile.debian | cut -d' ' -f2 | tr -d ':')
     - docker-buildx create --use
     - docker buildx build
       -f Dockerfile.alpine
