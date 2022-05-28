@@ -31,26 +31,3 @@ docker-build.alpine:
       .
   rules:
     - if: $CI_COMMIT_TAG
-
-
-docker-build.debian:
-  stage: build
-  before_script:
-    - wget -O /usr/bin/docker-buildx ${BUILDX_URL}
-    - chmod +x /usr/bin/docker-buildx
-    - docker login -u ${DOCKER_USER} -p ${DOCKER_TOKEN}
-  script:
-    - DEBIAN_TAG=$(grep FROM Dockerfile.debian | cut -d' ' -f2 | tr -d ':')
-    - docker-buildx create --use
-    - docker buildx build
-      -f Dockerfile.debian
-      --platform ${BUILDX_PLATFORMS}
-      --tag ${DOCKER_REPO}:${DEBIAN_TAG}-${CI_COMMIT_TAG}
-      --tag ${DOCKER_REPO}:debian-${CI_COMMIT_TAG}
-      --tag ${DOCKER_REPO}:${CI_COMMIT_TAG}
-      --tag ${DOCKER_REPO}:debian
-      --tag ${DOCKER_REPO}:latest
-      --push
-      .
-  rules:
-    - if: $CI_COMMIT_TAG
