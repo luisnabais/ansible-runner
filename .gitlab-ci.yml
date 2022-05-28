@@ -12,7 +12,7 @@ variables:
   BUILDX_PLATFORMS: "linux/amd64,linux/arm64/v8"
 
 
-docker-build:
+docker-build.alpine:
   stage: build
   before_script:
     - wget -O /usr/bin/docker-buildx ${BUILDX_URL}
@@ -20,7 +20,6 @@ docker-build:
     - docker login -u ${DOCKER_USER} -p ${DOCKER_TOKEN}
   script:
     - ALPINE_TAG=$(grep FROM Dockerfile.alpine | cut -d' ' -f2 | tr -d ':')
-    - DEBIAN_TAG=$(grep FROM Dockerfile.debian | cut -d' ' -f2 | tr -d ':')
     - docker-buildx create --use
     - docker buildx build
       -f Dockerfile.alpine
@@ -30,6 +29,19 @@ docker-build:
       --tag ${DOCKER_REPO}:alpine
       --push
       .
+  rules:
+    - if: $CI_COMMIT_TAG
+
+
+docker-build.debian:
+  stage: build
+  before_script:
+    - wget -O /usr/bin/docker-buildx ${BUILDX_URL}
+    - chmod +x /usr/bin/docker-buildx
+    - docker login -u ${DOCKER_USER} -p ${DOCKER_TOKEN}
+  script:
+    - DEBIAN_TAG=$(grep FROM Dockerfile.debian | cut -d' ' -f2 | tr -d ':')
+    - docker-buildx create --use
     - docker buildx build
       -f Dockerfile.debian
       --platform ${BUILDX_PLATFORMS}
