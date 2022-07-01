@@ -6,7 +6,6 @@ services:
   - docker:dind
 
 variables:
-  CONTAINER_REGISTRY: 'registry.gitlab.com/luisnabais/ansible-runner'
   DOCKER_REGISTRY: 'luisnabais/ansible-runner'
   BUILDX_VERSION: "v0.8.2"
   BUILDX_URL: "https://github.com/docker/buildx/releases/download/${BUILDX_VERSION}/buildx-${BUILDX_VERSION}.linux-amd64"
@@ -26,11 +25,11 @@ docker-build.alpine:
     - docker buildx build
       -f Dockerfile.alpine
       --platform ${BUILDX_PLATFORMS}
-      --tag ${CONTAINER_REGISTRY}:${ALPINE_TAG}-${CI_COMMIT_TAG}
-      --tag ${CONTAINER_REGISTRY}:alpine-${CI_COMMIT_TAG}      
-      --tag ${CONTAINER_REGISTRY}:${CI_COMMIT_TAG}
-      --tag ${CONTAINER_REGISTRY}:alpine
-      --tag ${CONTAINER_REGISTRY}:latest
+      --tag ${CI_REGISTRY_IMAGE}:${ALPINE_TAG}-${CI_COMMIT_TAG}
+      --tag ${CI_REGISTRY_IMAGE}:alpine-${CI_COMMIT_TAG}      
+      --tag ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
+      --tag ${CI_REGISTRY_IMAGE}:alpine
+      --tag ${CI_REGISTRY_IMAGE}:latest
       --tag ${DOCKER_REGISTRY}:${ALPINE_TAG}-${CI_COMMIT_TAG}
       --tag ${DOCKER_REGISTRY}:alpine-${CI_COMMIT_TAG}      
       --tag ${DOCKER_REGISTRY}:${CI_COMMIT_TAG}
