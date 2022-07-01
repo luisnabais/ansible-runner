@@ -19,7 +19,7 @@ docker-build.alpine:
     - wget -O /usr/bin/docker-buildx ${BUILDX_URL}
     - chmod +x /usr/bin/docker-buildx
     - docker login -u ${DOCKER_USER} -p ${DOCKER_TOKEN}
-    #- docker login -u ${} -p ${CONTAINER_REGISTRY_TOKEN} ${DOCKER_ENV_CI_REGISTRY}
+    - docker login -u ${CONTAINER_REGISTRY_USER} -p ${CONTAINER_REGISTRY_TOKEN} ${DOCKER_ENV_CI_REGISTRY}
   script:
     - ALPINE_TAG=$(grep FROM Dockerfile.alpine | cut -d' ' -f2 | tr -d ':')
     - docker-buildx create --use
