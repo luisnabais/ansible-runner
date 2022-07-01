@@ -18,8 +18,8 @@ docker-build.alpine:
     - wget -O /usr/bin/docker-buildx ${BUILDX_URL}
     - chmod +x /usr/bin/docker-buildx
     - export
+    - docker login registry.gitlab.com
     - exit 1
-    #- docker login -u ${DOCKER_USER} -p ${DOCKER_TOKEN}
   script:
     - ALPINE_TAG=$(grep FROM Dockerfile.alpine | cut -d' ' -f2 | tr -d ':')
     - docker-buildx create --use
