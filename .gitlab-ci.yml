@@ -21,6 +21,7 @@ container-build.alpine:
     - ALPINE_TAG=$(grep FROM Dockerfile.alpine | cut -d' ' -f2 | tr -d ':')
     - docker-buildx create --use
     - docker buildx build
+      --provenance=false
       -f Dockerfile.alpine
       --platform ${BUILDX_PLATFORMS}
       --tag ${CI_REGISTRY_IMAGE}:${ALPINE_TAG}-${CI_COMMIT_TAG}
