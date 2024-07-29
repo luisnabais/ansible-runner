@@ -13,7 +13,6 @@ container-build:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
   script:
     - ALPINE_TAG=$(grep FROM Dockerfile | cut -d' ' -f2 | tr -d ':')
-    - docker-buildx create --use
     - docker buildx build
       --provenance=false
       --platform ${BUILDX_PLATFORMS}
