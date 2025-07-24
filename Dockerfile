@@ -1,3 +1,3 @@
-FROM alpine:3.22.0
+FROM alpine:3.22.1
 
-RUN apk -U add ansible bash git openssh
+RUN apk -U add ansible bash git openssh rsync
